@@ -140,11 +140,18 @@ description = "Epson projector support for Python"
 category = "main"
 optional = false
 python-versions = "*"
+develop = false
 
 [package.dependencies]
 aiohttp = ">=3.3.0"
 async-timeout = ">=3.0.0"
 pyserial-asyncio = ">=0.4"
+
+[package.source]
+type = "git"
+url = "https://github.com/pszafer/epson_projector.git"
+reference = "8b89358dd313464da15a96af614a5802f46796a5"
+resolved_reference = "8b89358dd313464da15a96af614a5802f46796a5"
 
 [[package]]
 name = "everett"
@@ -327,7 +334,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "787d4c9d8e16790f02afe12052aa36fa7c45fcfef277dde23c9d07f9b75cac2a"
+content-hash = "1416c4fb9fe4d6f099ad490855c5f7b782f5db9878d7487295dbf65d9a828ffe"
 
 [metadata.files]
 aiohttp = [
@@ -440,10 +447,7 @@ colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
     {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
 ]
-epson-projector = [
-    {file = "epson_projector-0.4.2-py3-none-any.whl", hash = "sha256:f86a29fe9a780518cf4dd5b5a704e19beef2e3688ca221e0d45ece8dc1c0f4ae"},
-    {file = "epson_projector-0.4.2.tar.gz", hash = "sha256:4ade1c7a0f7008d23b08bd886c8790c44cf7d60453d1eb5a8077c92aaf790d30"},
-]
+epson-projector = []
 everett = [
     {file = "everett-3.0.0-py2.py3-none-any.whl", hash = "sha256:43c208e09ef53adb8e8739ad96999893a2c0a27753e33f89be346e916e71efb0"},
     {file = "everett-3.0.0.tar.gz", hash = "sha256:80ce592168ce50643711eceff3ec94fdeec755f228de746f20b1bfc94ea20682"},

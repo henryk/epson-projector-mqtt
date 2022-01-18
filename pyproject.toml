@@ -8,7 +8,7 @@ license = "GPL-2.0-or-later"
 [tool.poetry.dependencies]
 python = "^3.7"
 asyncio-mqtt = "^0.11.1"
-epson-projector = "^0.4.2"
+epson-projector = {git = "https://github.com/pszafer/epson_projector.git", rev = "8b89358dd313464da15a96af614a5802f46796a5"}
 everett = "^3.0.0"
 
 [tool.poetry.dev-dependencies]
