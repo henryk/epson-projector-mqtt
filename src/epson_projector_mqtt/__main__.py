@@ -11,7 +11,7 @@ from itertools import chain
 
 from asyncio_mqtt import Client, MqttError, Will
 from epson_projector import Projector
-from epson_projector.const import PWR_OFF, PWR_ON
+from epson_projector.const import PWR_OFF, PWR_ON, SOURCE_LIST, CMODE_LIST
 from everett.manager import ConfigManager
 
 logger = logging.getLogger("epson_projector_mqtt.main_loop")
@@ -113,7 +113,7 @@ class EpsonProjectorMqttMainLoop:
             "availability_topic": "~/status",
             "payload_available": "online",
             "payload_not_available": "offline",
-            # 'json_attributes_topic': "{}/attributes".format(self.prefix),
+            'json_attributes_topic': "~/attributes",
             # 'force_update': self.config.get('force_update', False),
             "unique_id": self.epson_projector_configuration.get_unique_id(),
             "device": {
@@ -178,11 +178,21 @@ class EpsonProjectorMqttMainLoop:
                         await client.publish(f"{self.mqtt_prefix}/state", power_state)
                         last_power_state = power_state
 
-                    lamp_hours = await projector.get_property("LAMP")
-                    source = await projector.get_property("SOURCE")
-                    color_mode = await projector.get_property("CMODE")
-                    mute_selection = await projector.get_property("MSEL")
-                    luminance = await projector.get_property("LUMINANCE")
+                    attributes = {}
+                    properties = {
+                        "lamp_hours": ("LAMP", lambda x: x if isinstance(x, int) else int(x, 10)),
+                        "source": ("SOURCE", lambda x: SOURCE_LIST.get(x, x)),
+                        "color_mode": ("CMODE", lambda x: CMODE_LIST.get(x, x)),
+                        "mute_selection": ("MSEL", str),
+                        "luminance": ("LUMINANCE", lambda x: x if isinstance(x, int) else int(x, 10)),
+                    }
+                    for key, (prop, caster) in properties.items():
+                        value = await projector.get_property(prop)
+                        if value:
+                            attributes[key] = caster(value)
+
+                    if attributes:
+                        await client.publish(f"{self.mqtt_prefix}/attributes", json.dumps(attributes))
 
                     async with wakeup:
                         with contextlib.suppress(asyncio.TimeoutError):
